@@ -35,7 +35,7 @@ async def generate_otp(request: Request):
     otp_uri = totp.provisioning_uri(name=username, issuer_name=application_name)
 
     # Return the OTP URI
-    return JSONResponse(content={"otp_uri": otp_uri})
+    return JSONResponse(content={"otp_uri": otp_uri, "secret_key": secret_key})
 
 
 @app.get("/verifyToken/")
@@ -43,16 +43,21 @@ async def verify_otp(request: Request):
     # Parse JSON body
     body = await request.json()
     secret_key = body.get("secret_key")
+    method = body.get("method")
     otp = body.get("otp")
 
     if not secret_key or not otp:
         raise HTTPException(status_code=400, detail="Missing secret key or OTP")
 
     # Create a TOTP object
+    if method == "email":
+        valid_time = 10
+    else:
+        valid_time = 1
     totp = TOTP(secret_key)
     
     # Verify the OTP
-    if totp.verify(otp, valid_window=1):
+    if totp.verify(otp, valid_window=valid_time):
         return JSONResponse(content={"valid": True})
     else:
         return JSONResponse(content={"valid": False})
