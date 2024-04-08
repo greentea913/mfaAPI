@@ -76,4 +76,6 @@ async def generate_otp(request: Request):
     current_otp = totp.now()
 
     return JSONResponse(content={"otp": current_otp})
-    
+
+if __name__ == '__main__':
+    main.run(host='0.0.0.0', port=8080)
