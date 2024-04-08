@@ -1,0 +1,6 @@
+steps:
+- name: 'python:3.12-slim'
+  entrypoint: 'bash'
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', '$_DOCKER_IMAGE_NAME', '.' ]
+images: ['$_DOCKER_IMAGE_NAME']
