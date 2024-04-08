@@ -78,4 +78,4 @@ async def generate_otp(request: Request):
     return JSONResponse(content={"otp": current_otp})
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host='0.0.0.0', port=8080)
+    app.run("main:app", host='0.0.0.0', port=8080)
