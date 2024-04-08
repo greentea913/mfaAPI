@@ -38,7 +38,7 @@ async def generate_otp(request: Request):
     return JSONResponse(content={"otp_uri": otp_uri, "secret_key": secret_key})
 
 
-@app.get("/v1/verifyOTP/")
+@app.post("/v1/verifyOTP/")
 async def verify_otp(request: Request):
     # Parse JSON body
     body = await request.json()
@@ -62,7 +62,7 @@ async def verify_otp(request: Request):
     else:
         return JSONResponse(content={"valid": False})
     
-@app.get("/v1/generateOTP/")
+@app.post("/v1/generateOTP/")
 async def generate_otp(request: Request):
     body = await request.json()
     secret_key = body.get("secret_key")
